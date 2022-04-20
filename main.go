@@ -49,15 +49,6 @@ func classifyNumber(ctx *gin.Context) {
 		})
 		return
 	}
-	// handle negative numbers
-	if numQuery < 0 {
-		ctx.AbortWithStatusJSON(400, gin.H{
-			"number": numQuery,
-			"error":  true,
-			// "error":  "number cannot be less than zero",
-		})
-		return
-	}
 	// assign the number to check to the Number struct
 	numToCheck := &numClass{
 		Number: numQuery,
