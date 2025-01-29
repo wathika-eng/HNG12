@@ -1,4 +1,0 @@
-// http call
-GET http://localhost:8000/user/torvalds 
-// replace with your github username
-
