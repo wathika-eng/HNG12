@@ -9,11 +9,16 @@ import (
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/bradfitz/gomemcache/memcache"
 )
 
 var (
-	ctx    = context.Background()
-	client = &http.Client{}
+	ctx        = context.Background()
+	client     = &http.Client{}
+	githubUser map[string]interface{}
+	githubResp map[string]interface{}
+	cache      = memcache.New("10.0.0.1:11211", "10.0.0.2:11211", "10.0.0.3:11212")
 )
 
 // fetch GITHUB AUTH token/API KEY
@@ -53,9 +58,15 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	request.Header.Set("Accept", "application/vnd.github.v3+json")
 	// handle reqeuest
 	resp, err := client.Do(request)
-	if err != nil || resp.StatusCode == 403 {
-		// 403 indicates rate limiting
-		http.Error(w, fmt.Sprintf("Error occured while fetching data from GitHub API, status code: %v", resp.StatusCode),
+	// check is status code is not okay
+	if err != nil || resp.StatusCode != 200 {
+		body, _ := io.ReadAll(resp.Body)
+		if resp.Body != nil {
+			defer resp.Body.Close()
+		}
+		_ = json.Unmarshal(body, &githubResp)
+		logger(body)
+		http.Error(w, fmt.Sprintf("Error occured while fetching data from GitHub API, status code: %v, %v", resp.StatusCode, githubResp["message"]),
 			http.StatusBadRequest)
 		return
 	}
@@ -69,7 +80,6 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	}
 	logger(respData)
 	// indent the response data and filter
-	var githubUser map[string]interface{}
 	err = json.Unmarshal(respData, &githubUser)
 	if err != nil {
 		http.Error(w, `{"error": "Failed to parse API response"}`, http.StatusInternalServerError)
@@ -77,9 +87,9 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	}
 	email, emailOk := githubUser["email"].(string)
 	currentTime := time.Now().UTC().Format("2006-01-02T15:04:05Z")
-	reposURL, reposOk := githubUser["repos_url"].(string)
+	github_url := fmt.Sprintf("%s/repos", apiUrl)
 	// handle a case where email is private
-	if !emailOk || !reposOk {
+	if !emailOk {
 		// email = "default@email.com"
 		email = "EMAIL IS PRIVATE"
 		log.Printf("Email is private: %v", email)
@@ -87,13 +97,18 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	userData := User{
 		Email:           email,
 		CurrentDatetime: currentTime,
-		ReposURL:        reposURL,
+		ReposURL:        github_url,
 	}
 	jsonData, err := json.MarshalIndent(userData, "", " ")
 	if err != nil {
 		http.Error(w, `{"error": "Failed to generate response"}`, http.StatusInternalServerError)
 		return
 	}
+	// TODO
+	// err = cache.Set(&memcache.Item{
+	// 	Key:   email,
+	// 	Value: jsonData,
+	// })
 	w.Write(jsonData)
 	// return all the data
 	// w.Write(respData)
