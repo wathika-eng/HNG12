@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -34,6 +35,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to encode JSON", http.StatusInternalServerError)
 		return
 	}
+	data = []byte(fmt.Sprintf("%s\n", data))
 	// 200, okay
 	w.WriteHeader(http.StatusOK)
 	// json data
