@@ -22,14 +22,15 @@ func main() {
 	}
 	// mux controls traffic
 	mux := http.NewServeMux()
+
 	mux.HandleFunc("GET /user/{username}", getUser)
-	mux.HandleFunc("GET /user/", getUser)
+	mux.HandleFunc("GET /", getUser)
 	// delete logs
 	defer os.Remove("logs.json")
 	stop := make(chan os.Signal, 1)
 	signal.Notify(stop, os.Interrupt, syscall.SIGINT)
 	// create a server
-	log.Printf("Listening on http://localhost%v/user\n", PORT)
+	log.Printf("Listening on http://localhost%v/\n", PORT)
 	go func() {
 		http.ListenAndServe(PORT, mux)
 	}()

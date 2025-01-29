@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"net/http"
 	"os"
 )
 
@@ -31,4 +32,22 @@ func logger(respData []byte) {
 	if err != nil {
 		log.Printf("error while writing log file: %v", err)
 	}
+}
+
+// CORS middleware to set the necessary headers
+func enableCORS() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Allow all origins (you can specify domains if needed)
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		// Allow specific methods (GET, POST, etc.)
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		// Allow specific headers
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		// Handle preflight requests for CORS
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+	})
 }

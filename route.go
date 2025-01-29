@@ -9,8 +9,6 @@ import (
 	"net/http"
 	"os"
 	"time"
-
-	"github.com/bradfitz/gomemcache/memcache"
 )
 
 var (
@@ -18,7 +16,7 @@ var (
 	client     = &http.Client{}
 	githubUser map[string]interface{}
 	githubResp map[string]interface{}
-	cache      = memcache.New("10.0.0.1:11211", "10.0.0.2:11211", "10.0.0.3:11212")
+	//cache      = memcache.New("10.0.0.1:11211", "10.0.0.2:11211", "10.0.0.3:11212")
 )
 
 // fetch GITHUB AUTH token/API KEY
@@ -38,6 +36,7 @@ func getToken() string {
 func getUser(w http.ResponseWriter, r *http.Request) {
 	// ensure data returned is json
 	w.Header().Set("Content-Type", "application/json")
+	enableCORS()
 	// get data from path params
 	userName := r.PathValue("username")
 	if userName == "" {
@@ -54,8 +53,10 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// set API KEY Token bearer
-	request.Header.Set("Authorization", "token "+GITHUB_AUTH_TOKEN)
-	request.Header.Set("Accept", "application/vnd.github.v3+json")
+	if GITHUB_AUTH_TOKEN != "" {
+		request.Header.Set("Authorization", "token "+GITHUB_AUTH_TOKEN)
+		request.Header.Set("Accept", "application/vnd.github.v3+json")
+	}
 	// handle reqeuest
 	resp, err := client.Do(request)
 	// check is status code is not okay
@@ -87,7 +88,9 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	}
 	email, emailOk := githubUser["email"].(string)
 	currentTime := time.Now().UTC().Format("2006-01-02T15:04:05Z")
-	github_url := fmt.Sprintf("%s/repos", apiUrl)
+
+	// reposURL := fmt.Sprintf("%s/repos", newURL)
+	reposURL := "https://github.com/wathika-eng/simple_github_user_api"
 	// handle a case where email is private
 	if !emailOk {
 		// email = "default@email.com"
@@ -97,9 +100,9 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	userData := User{
 		Email:           email,
 		CurrentDatetime: currentTime,
-		ReposURL:        github_url,
+		ReposURL:        reposURL,
 	}
-	jsonData, err := json.MarshalIndent(userData, "", " ")
+	jsonData, err := json.MarshalIndent(userData, "", "  ")
 	if err != nil {
 		http.Error(w, `{"error": "Failed to generate response"}`, http.StatusInternalServerError)
 		return
@@ -109,6 +112,7 @@ func getUser(w http.ResponseWriter, r *http.Request) {
 	// 	Key:   email,
 	// 	Value: jsonData,
 	// })
+	jsonData = []byte(fmt.Sprintf("%s\n", jsonData))
 	w.Write(jsonData)
 	// return all the data
 	// w.Write(respData)
