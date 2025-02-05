@@ -4,13 +4,17 @@ import (
 	"log"
 	"strconv"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 var PORT string = ":8000"
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	server := gin.Default()
+	//server.SetTrustedProxies(nil)
+	server.Use(cors.Default())
 	// GET** <your-domain.com>/api/classify-number?number=371
 	server.GET("/ping", func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{"message": "pong"})
