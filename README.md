@@ -5,21 +5,23 @@
 - Numbers API - Get a random number fact [GitHub link](https://github.com/wathika-eng/HNG12/tree/numbers-api)
 
 # Technologies used:
-
-
 - Golang > 1.23 [Golang](https://golang.org/)
 - Render [Render](http://render.com)
 
 ## Setting up the repo locally:
 Clone the repo locally:
 ```bash
-git clone https://github.com/wathika-eng/HNG12 --depth 1 && cd HNG12
+git clone https://github.com/wathika-eng/HNG12  && cd HNG12 && git checkout numbers-api
 ```
 Switch to the branch you want to work on:
 ```bash
 git -b github-api
 # or
 git -b numbers-api
+```
+
+```bash
+git branch -r # lists all remote branches
 ```
 
 If you have Golang installed, you can run the following commands:
