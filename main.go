@@ -33,7 +33,7 @@ func classifyNumber(ctx *gin.Context) {
 	// handle blank query param
 	if query == "" {
 		ctx.AbortWithStatusJSON(400, gin.H{
-			"number": query,
+			"number": "alphabet",
 			"error":  true,
 			// "error":  "query param cannot be blank",
 		})
