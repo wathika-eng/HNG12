@@ -90,5 +90,5 @@ func sumDigits(n int) int {
 		// remove the last digit
 		n /= 10
 	}
-	return sum
+	return int(math.Abs(float64(sum)))
 }
