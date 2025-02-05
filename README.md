@@ -1,9 +1,11 @@
+![Go](https://img.shields.io/badge/Go-1.23-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 # HNG12 Internship Tasks
 - Github API - Get user details from Github API [GitHub link](https://github.com/wathika-eng/HNG12/tree/github-api)
 - Numbers API - Get a random number fact [GitHub link](https://github.com/wathika-eng/HNG12/tree/numbers-api)
 
 # Technologies used:
-![Golang Logo](https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg)
+
 
 - Golang > 1.23 [Golang](https://golang.org/)
 - Render [Render](http://render.com)
@@ -69,3 +71,4 @@ MIT License
 ## 📢 Contact
 wathika02@gmail.com
 
+![Golang Logo](https://upload.wikimedia.org/wikipedia/commons/0/05/Go_Logo_Blue.svg)
