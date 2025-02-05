@@ -1,11 +1,17 @@
-# simple_github_user_api
-A simple API which returns a users GitHub username and email.
+# HNG12 Internship Tasks
+- Github API - Get user details from Github API
+- Numbers API - Get a random number fact
+
+# Technologies used:
+- Golang > 1.23
+
+
 
 ## Setting up the repo locally:
 
 Clone the repo locally:
 ```bash
-git clone https://github.com/wathika-eng/simple_github_user_api.git --depth 1 && cd simple_github_user_api
+git clone https://github.com/wathika-eng/HNG12 --depth 1 && cd HNG12
 ```
 
 If you don't have Golang (1.23.5) installed, you can just execute the binary under the `bin` directory.
