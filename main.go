@@ -34,7 +34,8 @@ func classifyNumber(ctx *gin.Context) {
 	if query == "" {
 		ctx.AbortWithStatusJSON(400, gin.H{
 			"number": query,
-			"error":  "query param cannot be blank",
+			"error":  true,
+			// "error":  "query param cannot be blank",
 		})
 		return
 	}
@@ -42,8 +43,9 @@ func classifyNumber(ctx *gin.Context) {
 	numQuery, err := strconv.Atoi(query)
 	if err != nil {
 		ctx.AbortWithStatusJSON(400, gin.H{
-			"number": numQuery,
-			"error":  "query param cannot be converted to an interger",
+			"number": "alphabet",
+			"error":  true,
+			// "error":  "query param cannot be converted to an interger",
 		})
 		return
 	}
@@ -51,7 +53,8 @@ func classifyNumber(ctx *gin.Context) {
 	if numQuery < 0 {
 		ctx.AbortWithStatusJSON(400, gin.H{
 			"number": numQuery,
-			"error":  "number cannot be less than zero",
+			"error":  true,
+			// "error":  "number cannot be less than zero",
 		})
 		return
 	}

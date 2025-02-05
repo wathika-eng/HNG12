@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 )
 
@@ -26,7 +25,7 @@ func parseNum(num *numClass) {
 	num.DigitSum = sumDigits(num.Number)
 	apiResp, err := funFact(num.Number)
 	if err != nil {
-		log.Fatal(err)
+		num.FunFact = string(err.Error())
 	}
 	num.FunFact = apiResp
 }
