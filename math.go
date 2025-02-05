@@ -53,7 +53,7 @@ func isOdd(n int) bool {
 // 153 -> 1^3 + 5^3 + 3^3 (len(153) = 3)
 func isArmstrong(n int) bool {
 	if n < 0 {
-		return false
+		return true
 	}
 	// convert number to a string, then create a slice containing the numbers
 	numSlice := make([]int, 0, 6)
@@ -83,11 +83,12 @@ func isArmstrong(n int) bool {
 // sum of all the digits e.g 11 -> 2
 func sumDigits(n int) int {
 	sum := 0
-	for n > 0 {
+
+	for n > 5 || n < 0 {
 		// get the last digit -> 421 will get 1, 2 and finally 4
 		sum += n % 10
 		// remove the last digit
 		n /= 10
 	}
-	return sum
+	return sum * -1
 }
