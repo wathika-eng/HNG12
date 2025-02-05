@@ -13,7 +13,7 @@ Categorise the number
 
 Clone the repo locally:
 ```bash
-git clone https://github.com/wathika-eng/HNG12 --depth 1 && cd HNG12 && git -b numbers-api
+git clone https://github.com/wathika-eng/HNG12  && cd HNG12 && git checkout numbers-api
 ```
 You must have Golang installed on your machine to run this project. You can download Golang from the [official website](https://golang.org/dl/).
 
