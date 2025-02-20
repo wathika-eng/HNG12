@@ -1,9 +1,11 @@
 ![Go](https://img.shields.io/badge/Go-1.23-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 # HNG12 Internship Tasks
-- Github API - Get user details from Github API [GitHub link](https://github.com/wathika-eng/HNG12/tree/github-api)
+- GitHub API - Get user details from Github API [GitHub link](https://github.com/wathika-eng/HNG12/tree/github-api)
 - Numbers API - Get a random number fact [GitHub link](https://github.com/wathika-eng/HNG12/tree/numbers-api)
-
+- Books API - Serve the API using nginx and handle any errors e.g when searching for an non-existing boon [GitHub link](https://github.com/wathika-eng/hng12-fastapi-book-project)
+- [Build a Telex Integration](https://telex.im/) - Fetches the latest cybersecurity alerts (CVE reports, malware threats) from APIs and posts them at set intervals [link](https://comingsoon.com)
+- 
 # Technologies used:
 - Golang > 1.23 [Golang](https://golang.org/)
 - Render [Render](http://render.com)
@@ -11,7 +13,7 @@
 ## Setting up the repo locally:
 Clone the repo locally:
 ```bash
-git clone https://github.com/wathika-eng/HNG12  && cd HNG12 && git checkout numbers-api
+git clone https://github.com/wathika-eng/HNG12  && cd HNG12
 ```
 Switch to the branch you want to work on:
 ```bash
